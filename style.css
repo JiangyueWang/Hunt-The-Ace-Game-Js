@@ -4,34 +4,39 @@
     --card-height: 220px;
 }
 .card-container {
-    margin-top:30px;
-    position: relative
+    margin-top: 30px;
+    position: relative;
 }
 .card {
     position: absolute;
+    height: var(--card-height);
+    width: var(--card-width); 
+    perspective: 1000px;
+    cursor: pointer;
 }
 .card-inner {
-    position:relative;
+    position: relative;
     width: 100%;
-    height: 100;
+    height: 100%;
     text-align: center;
     transition: transform 0.6s;
     transform-style: preserve-3d;
 }
-
 .card-front, .card-back {
-    position: absolute;
-    width: 100%;
+    position:absolute;
+    width: 100%; 
     height: 100%;
-    -webkit-backface-visibility: hidden;
+    /*  -webkit-backface-visibility: hidden; and backface-visibility: hidden; 
+    are CSS properties that hide the back face of an element when it is flipped.  */
+    -webkit-backface-visibility: hidden; /*safari*/
     backface-visibility: hidden;
 }
 .card-img {
     height: 100%;
 }
 .card-back {
-    transform: rotateY(180deg)
+    transform: rotateY(180deg);
 }
-.card:hover .card-inner{
+.card:hover .card-inner {
     transform: rotateY(180deg);
 }
