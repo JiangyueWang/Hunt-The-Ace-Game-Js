@@ -7,6 +7,7 @@ const cardObjectDefinitions = [
 ];
 
 const cardBackImgPath = '/images/card-back-Blue.png';
+const cardContainerElement = document.querySelector('.card-container');
 
 function createCard(cardItem) {
     // create div elements that make up a card using HTML templte below
@@ -25,7 +26,7 @@ function createCard(cardItem) {
     const cardElem = createElement('div');
     // add class and id to the card element
     addClassToElement(cardElem, 'card');
-    addIdToElement(cardElem, cardElem.id);
+    addIdToElement(cardElem, cardItem.id);
 
     // create cardInnerElem and add class to it 
     const cardInnerElem = createElement('div');
@@ -47,7 +48,7 @@ function createCard(cardItem) {
     addSrcToImgElement(cardImgBack, cardBackImgPath);
     
     // add src attribute and appropriate value to img element - front of card
-    addSrcToImgElement(cardImgFront, cardElem.imagePath);
+    addSrcToImgElement(cardImgFront, cardItem.imagePath);
 
     // add class to cardImgFront and cardImgBack element
     addClassToElement(cardImgFront, 'card-img');
@@ -63,7 +64,10 @@ function createCard(cardItem) {
     addChildElement(cardInnerElem, cardFrontElem);
     addChildElement(cardInnerElem, cardBackElem);
     // add inner card element to card element
-    addChildElement(cardInnerElem, cardElem);
+    addChildElement(cardElem, cardInnerElem);
+
+    // add card element as child element to appropriate grid cell
+    addCardToGridCell(cardElem);
 
 
 }
@@ -87,4 +91,23 @@ function addSrcToImgElement(imgElem, src) {
 
 function addChildElement(parentElem, childElem) {
     return parentElem.appendChild(childElem)
+}
+
+function addCardToGridCell(card) {
+    const cardPositionClassName = mapCardToGridCell(card);
+    const cardPositionElem = document.querySelector(cardPositionClassName);
+    addChildElement(cardPositionElem, card)
+}
+
+function mapCardToGridCell(card) {
+    if(card.id == 1) {
+        return 'card-pos-a';
+    } else if(card.id == 2) {
+        return 'card-pos-b';
+    } else if(card.id == 3) {
+        return 'card-pos-c';
+    } else {
+        return 'card-pos-d';
+    }
+
 }
