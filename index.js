@@ -6,6 +6,8 @@ const cardObjectDefinitions = [
 
 ];
 
+const cardBackImgPath = '/images/card-back-Blue.png';
+
 function createCard(cardItem) {
     // create div elements that make up a card using HTML templte below
     // <div class="card">
@@ -41,7 +43,15 @@ function createCard(cardItem) {
     const cardImgFront = createElement('img');
     const cardImgBack = createElement('img');
     
+    // add src attribute and appropriate value to img element - back of card
+    addSrcToImgElement(cardImgBack, cardBackImgPath);
+    
+    // add src attribute and appropriate value to img element - front of card
+    addSrcToImgElement(cardImgFront, cardElem.imagePath);
 
+    // add class to cardImgFront and cardImgBack element
+    addClassToElement(cardImgFront, 'card-img');
+    addClassToElement(cardImgBack, 'card-img');
 }
 
 function createElement(elemType) {
@@ -55,4 +65,8 @@ function addClassToElement(elem, className) {
 
 function addIdToElement(elem, id) {
     return elem.id = id
+}
+
+function addSrcToImgElement(imgElem, src) {
+    return imgElem.src = src 
 }
