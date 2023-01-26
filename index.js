@@ -18,15 +18,29 @@ function createCard(cardItem) {
     //         <img src="./images/card-back-Blue.png" alt="" class="card-img">
     //     </div>
     // </div>
+
+    // create card element
     const cardElem = createElement('div');
+    // add class and id to the card element
+    addClassToElement(cardElem, 'card');
+    addIdToElement(cardElem, cardElem.id);
+
+    // create cardInnerElem and add class to it 
     const cardInnerElem = createElement('div');
+    addClassToElement(cardInnerElem, 'card-inner');
+    
+    //create cardFrontElem and add class to it 
     const cardFrontElem = createElement('div');
+    addClassToElement(cardFrontElem, 'card-front');
+
+    // create cardBackElem and add class to it
     const cardBackElem = createElement('div');
+    addClassToElement(cardBackElem, 'card-back');
 
     //create front and back image elements for a card
     const cardImgFront = createElement('img');
     const cardImgBack = createElement('img');
-
+    
 
 }
 
@@ -39,3 +53,6 @@ function addClassToElement(elem, className) {
     return elem.classList.add(className)
 }
 
+function addIdToElement(elem, id) {
+    return elem.id = id
+}
