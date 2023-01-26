@@ -52,6 +52,20 @@ function createCard(cardItem) {
     // add class to cardImgFront and cardImgBack element
     addClassToElement(cardImgFront, 'card-img');
     addClassToElement(cardImgBack, 'card-img');
+
+    // add child elements to parent elements
+
+    // add back img element as child element to cardBackElem
+    addChildElement(cardBackElem, cardImgBack);
+    // add front img element as child element to cardFrontElem
+    addChildElement(cardFrontElem, cardImgFront);
+    // add front and back card element as child element to inner card element
+    addChildElement(cardInnerElem, cardFrontElem);
+    addChildElement(cardInnerElem, cardBackElem);
+    // add inner card element to card element
+    addChildElement(cardInnerElem, cardElem);
+
+
 }
 
 function createElement(elemType) {
@@ -69,4 +83,8 @@ function addIdToElement(elem, id) {
 
 function addSrcToImgElement(imgElem, src) {
     return imgElem.src = src 
+}
+
+function addChildElement(parentElem, childElem) {
+    return parentElem.appendChild(childElem)
 }
