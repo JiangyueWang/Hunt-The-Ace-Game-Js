@@ -2,12 +2,29 @@ const cardObjectDefinitions = [
     {id:1, imagePath:'/images/card-KingHearts.png'},
     {id:2, imagePath:'/images/card-JackClubs.png'},
     {id:3, imagePath:'/images/card-QueenDiamonds.png'},
-    {id:4, imagePath:'/images/card-AceSpades.png'},
+    {id:4, imagePath:'/images/card-AceSpades.png'}
 
 ];
 
-const cardBackImgPath = '/images/card-back-Blue.png';
+const cardBackImgPath = '/images/card-back-blue.png';
 const cardContainerElement = document.querySelector('.card-container');
+// const cardPosA = document.querySelector('.card-pos-a')
+
+// CreateOneCard();
+// function CreateOneCard() {
+//     const cardOne = createElement('div')
+//     addClassToElement(cardOne, 'card')
+//     addChildElement(cardPosA, cardOne)
+// }
+
+createCards();
+
+function createCards() {
+
+    cardObjectDefinitions.map((cardItem) => {
+        return createCard(cardItem)
+    })
+}
 
 function createCard(cardItem) {
     // create div elements that make up a card using HTML templte below
@@ -65,10 +82,8 @@ function createCard(cardItem) {
     addChildElement(cardInnerElem, cardBackElem);
     // add inner card element to card element
     addChildElement(cardElem, cardInnerElem);
-
     // add card element as child element to appropriate grid cell
     addCardToGridCell(cardElem);
-
 
 }
 
@@ -101,13 +116,13 @@ function addCardToGridCell(card) {
 
 function mapCardToGridCell(card) {
     if(card.id == 1) {
-        return 'card-pos-a';
+        return '.card-pos-a';
     } else if(card.id == 2) {
-        return 'card-pos-b';
+        return '.card-pos-b';
     } else if(card.id == 3) {
-        return 'card-pos-c';
-    } else {
-        return 'card-pos-d';
+        return '.card-pos-c';
+    } else if (card.id == 4){
+        return '.card-pos-d';
     }
 
 }

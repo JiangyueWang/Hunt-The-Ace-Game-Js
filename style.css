@@ -43,14 +43,14 @@ main {
     grid-area: d;
     border: 2px solid red;
 }
-/* .card {
+.card {
     position: absolute;
     height: var(--card-height);
     width: var(--card-width); 
     perspective: 1000px;
     cursor: pointer;
-} */
-/* .card-inner {
+}
+.card-inner {
     position: relative;
     width: 100%;
     height: 100%;
@@ -75,4 +75,4 @@ main {
 }
 .card:hover .card-inner {
     transform: rotateY(180deg);
-} */
+} 
