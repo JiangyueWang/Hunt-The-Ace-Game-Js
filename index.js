@@ -8,19 +8,10 @@ const cardObjectDefinitions = [
 
 const cardBackImgPath = '/images/card-back-blue.png';
 const cardContainerElement = document.querySelector('.card-container');
-// const cardPosA = document.querySelector('.card-pos-a')
-
-// CreateOneCard();
-// function CreateOneCard() {
-//     const cardOne = createElement('div')
-//     addClassToElement(cardOne, 'card')
-//     addChildElement(cardPosA, cardOne)
-// }
 
 createCards();
 
 function createCards() {
-
     cardObjectDefinitions.map((cardItem) => {
         return createCard(cardItem)
     })

@@ -43,6 +43,11 @@ main {
     grid-area: d;
     border: 2px solid red;
 }
+.card-pos-a, .card-pos-b, .card-pos-c, .card-pos-d {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .card {
     position: absolute;
     height: var(--card-height);
@@ -71,6 +76,9 @@ main {
     height: 100%;
 }
 .card-back {
+    /* transform: rotateY(180deg); */
+}
+.card-front {
     transform: rotateY(180deg);
 }
 .card:hover .card-inner {
