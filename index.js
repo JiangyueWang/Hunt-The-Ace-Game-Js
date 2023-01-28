@@ -16,16 +16,16 @@ loadGame();
 function loadGame() {
     // when the game loads, the cards will be created on the grid
     createCards();
-    // assigned call the cardElements created to cards variable 
+    // assigned call the cardElements created to casrds variable 
     cards = document.querySelector('.card');
     // add click event handler to the play game button, once play game button clicked, startGame function activates
-    playGameButtonElement.addEventListener(onclick, () => startGame() )
+    playGameButtonElement.addEventListener('click', () => startGame() )
 
 }
 
 function startGame() {
     // when user click Play Game button, the game will start
-    alter('game start!')
+    alert('game start!')
 }
 
 
