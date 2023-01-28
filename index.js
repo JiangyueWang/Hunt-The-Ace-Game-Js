@@ -10,14 +10,16 @@ const cardBackImgPath = '/images/card-back-blue.png';
 const cardContainerElement = document.querySelector('.card-container');
 let cards = [];
 const playGameButtonElement = document.getElementById('playGame');
+const collapseGridAreaTemp = '"d d" "d d"';
+const cardCollectionCellClass = ".card-pos-d";
 
 loadGame();
 
 function loadGame() {
     // when the game loads, the cards will be created on the grid
     createCards();
-    // assigned call the cardElements created to casrds variable 
-    cards = document.querySelector('.card');
+    // assigned All the cardElements created to casrds variable 
+    cards = document.querySelectorAll('.card');
     // add click event handler to the play game button, once play game button clicked, startGame function activates
     playGameButtonElement.addEventListener('click', () => startGame() )
 
@@ -25,13 +27,45 @@ function loadGame() {
 
 function startGame() {
     // when user click Play Game button, the game will start
-    alert('game start!')
+    initialiseNewGame();
+    startRound();
 }
 
+function initialiseNewGame() {
 
+}
+
+function startRound() {
+    initialiseNewRound();
+    collectCards();
+}
+
+function initialiseNewRound() {
+
+}
+
+function collectCards() {
+    // when the round starts, the grid will collapse into one cell and all cards will stack
+    transFormGridArea(collapseGridAreaTemp);
+    addCardsToGridAreaCell(cardCollectionCellClass);
+}
+
+function transFormGridArea(areas) {
+    // modify the gridTemplateAreas css which makes the grid only contains one cell
+    cardContainerElement.style.gridTemplateAreas = areas
+    
+}
+function addCardsToGridAreaCell(cellPositionClassName) {
+    const cellPositionElem = document.querySelector(cellPositionClassName)
+    cards.forEach((card, index) =>{
+        addChildElement(cellPositionElem, card)
+    })
+
+
+}
 function createCards() {
-    cardObjectDefinitions.map((cardItem) => {
-        return createCard(cardItem)
+    cardObjectDefinitions.forEach((cardItem)=>{
+        createCard(cardItem)
     })
 }
 
