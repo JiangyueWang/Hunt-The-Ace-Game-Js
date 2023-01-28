@@ -8,8 +8,26 @@ const cardObjectDefinitions = [
 
 const cardBackImgPath = '/images/card-back-blue.png';
 const cardContainerElement = document.querySelector('.card-container');
+let cards = [];
+const playGameButtonElement = document.getElementById('playGame');
 
-createCards();
+loadGame();
+
+function loadGame() {
+    // when the game loads, the cards will be created on the grid
+    createCards();
+    // assigned call the cardElements created to cards variable 
+    cards = document.querySelector('.card');
+    // add click event handler to the play game button, once play game button clicked, startGame function activates
+    playGameButtonElement.addEventListener(onclick, () => startGame() )
+
+}
+
+function startGame() {
+    // when user click Play Game button, the game will start
+    alter('game start!')
+}
+
 
 function createCards() {
     cardObjectDefinitions.map((cardItem) => {
