@@ -42,7 +42,8 @@ function initialiseNewGame() {
 function startRound() {
     initialiseNewRound();
     collectCards();
-    flipCards(true);
+    // flipCards(true);
+    shuffleCards();
 }
 
 function initialiseNewRound() {
@@ -98,6 +99,7 @@ function shuffleCards() {
         randomiseCardPositions();
         if (shuffleCount === 500) {
             clearInterval(id);
+            dealCards();
         } else {
             shuffleCount++;
         }
@@ -108,12 +110,73 @@ function shuffleCards() {
 
 function randomiseCardPositions() {
     // generate a random whole number between 0 and 4, excluding 4
-    const random1 = Math.floor(Math.random() * numeCards);
-    const random2 = Math.floor(Math.random() * numeCards);
-    // swap the elements in the cardPositions array so the position of the cards are randomised
+    const random1 = Math.floor(Math.random() * numeCards) + 1;
+    const random2 = Math.floor(Math.random() * numeCards) + 1;
+     // swap the elements in the cardPositions array so the position of the cards are randomised
     const temp = cardPositions[random1 - 1];
+
     cardPositions[random1 - 1] = cardPositions[random2 - 1];
     cardPositions[random2 - 1] = temp;
+}
+
+
+function dealCards() {
+    // // this function will restore the grid to contain four grid cells
+    // cardContainerElement.style.gridTemplateAreas = '"a b" "c d"';
+    // put card on the result of randomised position
+    addCardsToAppropriateCell()
+    const areasTemplate = returnGridAreasMappedTpCardPos()
+    alert(areasTemplate)
+    alert(cardPositions)
+    transFormGridArea(areasTemplate)
+}
+
+function addCardsToAppropriateCell() {
+    // restore the grid to its orginal state with four cells
+    cards.forEach(card => {
+        addCardToGridCell(card);
+    })
+}
+
+function returnGridAreasMappedTpCardPos() {
+    // this function generates a grid area template 
+    // the grid area template contains a new position configuration for the cells in the grid 
+    // based on the random position generated through the shuffle functionality stored within the cardPositions array
+    let firstPart = ""
+    let secondPart = ""
+    let areas = ""
+
+    cards.forEach((card, index) => {
+        if(cardPositions[index] == 1)
+        {
+            areas = areas + "a "
+        }
+        else if(cardPositions[index] == 2)
+        {
+            areas = areas + "b "
+        }
+        else if (cardPositions[index] == 3)
+        {
+            areas = areas + "c "
+        }
+        else if (cardPositions[index] == 4)
+        {
+            areas = areas + "d "
+        }
+        if (index == 1)
+        {
+            firstPart = areas.substring(0, areas.length - 1)
+            areas = "";
+        }
+        else if (index == 3)
+        {
+            secondPart = areas.substring(0, areas.length - 1)
+        }
+
+    })
+
+    return `"${firstPart}" "${secondPart}"`
+
 
 }
 
@@ -186,6 +249,7 @@ function createCard(cardItem) {
     initialiseCardPosition(cardElem);
 
 }
+
 function initialiseCardPosition(card) {
     return cardPositions.push(card.id)
 }
@@ -227,5 +291,4 @@ function mapCardToGridCell(card) {
     } else if (card.id == 4){
         return '.card-pos-d';
     }
-
 }
