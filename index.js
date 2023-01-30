@@ -13,6 +13,10 @@ const playGameButtonElement = document.getElementById('playGame');
 const collapseGridAreaTemp = '"d d" "d d"';
 const cardCollectionCellClass = ".card-pos-d";
 
+const numeCards = cardObjectDefinitions.length;
+let cardPositions = [];
+
+
 loadGame();
 
 function loadGame() {
@@ -65,6 +69,8 @@ function addCardsToGridAreaCell(cellPositionClassName) {
 
 function flipCard(card, flipToBack) {
     const innerCardElement = card.firstChild;
+    // if flipToBack is true and the first child element of the card doesnt have flip-it class
+    // then add to it
     if (flipToBack && !innerCardElement.classList.contains('flip-it')) {
         innerCardElement.classList.add('flip-it');
     } else if (innerCardElement.classList.contains('flip-it')){
@@ -76,15 +82,47 @@ function flipCards(flipToBack) {
     cards.forEach((card, index) => {
         setTimeout(() => {
             flipCard(card, flipToBack);
-        }, index * 400)
+        }, index * 100)
     })
 }
+
+
+function shuffleCards() {
+    // radomise the position of the card
+
+    // every 12ms the shuffle function will be executed
+    const id = setInterval(shuffle, 12);
+    
+    let shuffleCount = 0;
+    function shuffle() {
+        randomiseCardPositions();
+        if (shuffleCount === 500) {
+            clearInterval(id);
+        } else {
+            shuffleCount++;
+        }
+    }
+
+}
+
+
+function randomiseCardPositions() {
+    // generate a random whole number between 0 and 4, excluding 4
+    const random1 = Math.floor(Math.random() * numeCards);
+    const random2 = Math.floor(Math.random() * numeCards);
+    // swap the elements in the cardPositions array so the position of the cards are randomised
+    const temp = cardPositions[random1 - 1];
+    cardPositions[random1 - 1] = cardPositions[random2 - 1];
+    cardPositions[random2 - 1] = temp;
+
+}
+
 
 function createCards() {
     cardObjectDefinitions.forEach((cardItem)=>{
         createCard(cardItem)
     })
-}
+} 
 
 function createCard(cardItem) {
     // create div elements that make up a card using HTML templte below
@@ -144,7 +182,12 @@ function createCard(cardItem) {
     addChildElement(cardElem, cardInnerElem);
     // add card element as child element to appropriate grid cell
     addCardToGridCell(cardElem);
+    // the initial posiiotn of the card is established when the card is created
+    initialiseCardPosition(cardElem);
 
+}
+function initialiseCardPosition(card) {
+    return cardPositions.push(card.id)
 }
 
 function createElement(elemType) {
