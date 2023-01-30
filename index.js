@@ -38,6 +38,7 @@ function initialiseNewGame() {
 function startRound() {
     initialiseNewRound();
     collectCards();
+    flipCards(true);
 }
 
 function initialiseNewRound() {
@@ -60,9 +61,25 @@ function addCardsToGridAreaCell(cellPositionClassName) {
     cards.forEach((card, index) =>{
         addChildElement(cellPositionElem, card)
     })
-
-
 }
+
+function flipCard(card, flipToBack) {
+    const innerCardElement = card.firstChild;
+    if (flipToBack && !innerCardElement.classList.contains('flip-it')) {
+        innerCardElement.classList.add('flip-it');
+    } else if (innerCardElement.classList.contains('flip-it')){
+        innerCardElement.classList.remove('flip-it')
+    }
+}
+
+function flipCards(flipToBack) {
+    cards.forEach((card, index) => {
+        setTimeout(() => {
+            flipCard(card, flipToBack);
+        }, index * 400)
+    })
+}
+
 function createCards() {
     cardObjectDefinitions.forEach((cardItem)=>{
         createCard(cardItem)
