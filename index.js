@@ -62,6 +62,7 @@ function transFormGridArea(areas) {
     
 }
 function addCardsToGridAreaCell(cellPositionClassName) {
+    // select the one cell of the grid and append all cards into that single cell
     const cellPositionElem = document.querySelector(cellPositionClassName)
     cards.forEach((card, index) =>{
         addChildElement(cellPositionElem, card)
@@ -80,6 +81,7 @@ function flipCard(card, flipToBack) {
 }
 
 function flipCards(flipToBack) {
+    // the cards will flip in order with 0.1s wait time
     cards.forEach((card, index) => {
         setTimeout(() => {
             flipCard(card, flipToBack);
@@ -109,25 +111,22 @@ function shuffleCards() {
 
 
 function randomiseCardPositions() {
-    // generate a random whole number between 0 and 4, excluding 4
+    // generate a random whole number between 1 and4
     const random1 = Math.floor(Math.random() * numeCards) + 1;
     const random2 = Math.floor(Math.random() * numeCards) + 1;
-     // swap the elements in the cardPositions array so the position of the cards are randomised
+    // swap the elements in the cardPositions array so the position of the cards are randomised
+    // cardPositions currently is [1, 2, 3, 4]
     const temp = cardPositions[random1 - 1];
-
     cardPositions[random1 - 1] = cardPositions[random2 - 1];
     cardPositions[random2 - 1] = temp;
 }
 
 
 function dealCards() {
-    // // this function will restore the grid to contain four grid cells
-    // cardContainerElement.style.gridTemplateAreas = '"a b" "c d"';
+    //this function will restore the grid to contain four grid cells
     // put card on the result of randomised position
     addCardsToAppropriateCell()
     const areasTemplate = returnGridAreasMappedTpCardPos()
-    alert(areasTemplate)
-    alert(cardPositions)
     transFormGridArea(areasTemplate)
 }
 
@@ -251,6 +250,7 @@ function createCard(cardItem) {
 }
 
 function initialiseCardPosition(card) {
+    // cardPositions will updated to [1, 2, 3, 4]
     return cardPositions.push(card.id)
 }
 
@@ -277,11 +277,13 @@ function addChildElement(parentElem, childElem) {
 
 function addCardToGridCell(card) {
     const cardPositionClassName = mapCardToGridCell(card);
+    // append the card element to div based on its id number
     const cardPositionElem = document.querySelector(cardPositionClassName);
     addChildElement(cardPositionElem, card)
 }
 
 function mapCardToGridCell(card) {
+    // check card's id and return the class name according to its id number accordingly
     if(card.id == 1) {
         return '.card-pos-a';
     } else if(card.id == 2) {
