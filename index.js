@@ -22,9 +22,22 @@ let cardsRevealed = false;
 
 const aceSpadesId = 4;
 
+
+{/* <div class="header-score-container">
+<h2 class="score">Score&nbsp;<span class="badge">0</span></h2>
+</div>
+<div class="header-round-container">
+<h2 class="round">Round&nbsp;<span class="badge">0</span></h2>
+</div> */}
 const currentGameStatusElem = document.querySelector('.current-status');
+const scoreContainerElement = document.querySelector('.header-score-container');
+const scoreElement = document.querySelector('.score');
+const roundContainerElement = document.querySelector('.header-round-container');
+const roundElement = document.querySelector('.round');
+
 const winColour = 'green';
 const loseColour = 'red';
+const primaryColour = 'black';
 
 let roundNum = 0;
 let maxRounds = 4;
@@ -60,10 +73,9 @@ function updateScore() {
 }
 
 
-
 function updateStatusElement(elem, display, colour, innerHTML) {
     elem.style.display = display;
-
+    
     if (arguments.length > 2) {
         elem.style.colour = colour;
         elem.innerHTML = innerHTML;
@@ -114,6 +126,11 @@ function initialiseNewGame() {
     score = 0;
     roundNum = 0;
     shufflingInProgress = false;
+
+    updateStatusElement(scoreContainerElement, "flex");
+    updateStatusElement(roundContainerElement, "flex");
+    updateStatusElement(scoreElement, "block", primaryColour, `Score <span class='badge'>${score}</span>`);
+    updateStatusElement(roundElement, "block", primaryColour, `Round <span class='badge'>${roundNum}</span>`)
 }
 
 function startRound() {
@@ -124,7 +141,15 @@ function startRound() {
 }
 
 function initialiseNewRound() {
+    roundNum++;
+    playGameButtonElement.disabled = true;
+    gameInProgress = true;
+    shufflingInProgress = true;
+    cardsRevealed = false;
 
+    // when a round is tarted, we want to update the status of the game in black colour
+    updateStatusElement(currentGameStatusElem, "block", primaryColour, "Shuffling...");
+    updateStatusElement(roundElement, "block", primaryColour, `Round <span class='badge'>${roundNum}</span>`)
 }
 
 function collectCards() {
