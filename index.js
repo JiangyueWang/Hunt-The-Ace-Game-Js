@@ -50,6 +50,14 @@ function chooseCard(card) {
     // let user choose a card
     if (canChooseCard()) {
         evaluateCardChoice(card);
+        // flip the card that user chooses
+        flipCard(card, false);
+        // after 3s all cards fliped to revealed where the ace is
+        setTimeout(() => {
+            flipCards(false);
+            updateStatusElement(currentGameStatusElem, "block", primaryColour, "Card position revealed")
+        }, 3000)
+        cardsRevealed = true
     }
 }
 function calculateScoreToAdd(roundNum) {
