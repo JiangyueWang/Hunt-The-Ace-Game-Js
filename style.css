@@ -13,7 +13,7 @@ main {
     height: 50%;
     display: flex;
     justify-content: center;
-    border: 1px solid black;
+    /* border: 1px solid black; */
 }
 .card-container {
     position: relative;
@@ -24,24 +24,24 @@ main {
     grid-template-rows: 1fr 1fr;
     grid-template-areas: "a b"
                          "c d";
-    border: 1px solid red;
+    /* border: 1px solid red; */
 
 }
 .card-pos-a {
     grid-area: a;
-    border: 2px solid red;
+    /* border: 2px solid red; */
 }
 .card-pos-b {
     grid-area: b;
-    border: 2px solid red;
+    /* border: 2px solid red; */
 }
 .card-pos-c {
     grid-area: c;
-    border: 2px solid red;
+    /* border: 2px solid red; */
 }
 .card-pos-d {
     grid-area: d;
-    border: 2px solid red;
+    /* border: 2px solid red; */
 }
 .card-pos-a, .card-pos-b, .card-pos-c, .card-pos-d {
     display: flex;

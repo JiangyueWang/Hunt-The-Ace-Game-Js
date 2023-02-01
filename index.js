@@ -16,8 +16,83 @@ const cardCollectionCellClass = ".card-pos-d";
 const numeCards = cardObjectDefinitions.length;
 let cardPositions = [];
 
+let gameInProgress = false;
+let shufflingInProgress = false;
+let cardsRevealed = false;
+
+const aceSpadesId = 4;
+
+const currentGameStatusElem = document.querySelector('.current-status');
+const winColour = 'green';
+const loseColour = 'red';
+
+let roundNum = 0;
+let maxRounds = 4;
+let score = 0;
+
 
 loadGame();
+
+function chooseCard(card) {
+    // let user choose a card
+    if (canChooseCard()) {
+        evaluateCardChoice(card);
+    }
+}
+function calculateScoreToAdd(roundNum) {
+    if (roundNum === 1) {
+        return 100;
+    } else if (roundNum === 2) {
+        return 50;
+    } else if (roundNum === 3){
+        return 25;
+    } else {
+        return 10; 
+    }
+}
+function calculateScore() {
+    const scoreToAdd = calculateScoreToAdd(roundNum);
+    score = score + scoreToAdd
+}
+
+function updateScore() {
+    calculateScore();
+}
+
+
+
+function updateStatusElement(elem, display, colour, innerHTML) {
+    elem.style.display = display;
+
+    if (arguments.length > 2) {
+        elem.style.colour = colour;
+        elem.innerHTML = innerHTML;
+    }
+
+}
+
+function outputChoiceFeedback(hit) {
+    if (hit) {
+        updateStatusElement(currentGameStatusElem, "block", winColour, "Hit!! - Well Done!");
+    } else {
+        updateStatusElement(currentGameStatusElem, "block", loseColour, "Missed!!")
+    }
+}
+
+function evaluateCardChoice() {
+    // evalute the card that use chooses is the ace of spades or not
+    if (card.id === aceSpadesId) {
+        updateScore();
+        outputChoiceFeedback(true)
+    } 
+
+}
+
+function canChooseCard() {
+    // only game is in progress, shuffling is not in progress and cards are not revealed 
+    // then the user can choose a card
+    return gameInProgress === true && !shufflingInProgress && !cardsRevealed
+}
 
 function loadGame() {
     // when the game loads, the cards will be created on the grid
@@ -36,13 +111,15 @@ function startGame() {
 }
 
 function initialiseNewGame() {
-
+    score = 0;
+    roundNum = 0;
+    shufflingInProgress = false;
 }
 
 function startRound() {
     initialiseNewRound();
     collectCards();
-    // flipCards(true);
+    flipCards(true);
     shuffleCards();
 }
 
@@ -94,12 +171,12 @@ function shuffleCards() {
     // radomise the position of the card
 
     // every 12ms the shuffle function will be executed
-    const id = setInterval(shuffle, 12);
+    const id = setInterval(shuffle, 10);
     
     let shuffleCount = 0;
     function shuffle() {
         randomiseCardPositions();
-        if (shuffleCount === 500) {
+        if (shuffleCount === 400) {
             clearInterval(id);
             dealCards();
         } else {
