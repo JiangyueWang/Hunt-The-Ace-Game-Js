@@ -99,19 +99,20 @@ function outputChoiceFeedback(hit) {
     }
 }
 
-function evaluateCardChoice() {
+function evaluateCardChoice(card) {
     // evalute the card that use chooses is the ace of spades or not
     if (card.id === aceSpadesId) {
         updateScore();
-        outputChoiceFeedback(true)
-    } 
-
+        outputChoiceFeedback(true);
+    } else {
+        outputChoiceFeedback(false);
+    }
 }
 
 function canChooseCard() {
     // only game is in progress, shuffling is not in progress and cards are not revealed 
     // then the user can choose a card
-    return gameInProgress === true && !shufflingInProgress && !cardsRevealed
+    return gameInProgress == true && !shufflingInProgress && !cardsRevealed;
 }
 
 function loadGame() {
@@ -211,7 +212,9 @@ function shuffleCards() {
         randomiseCardPositions();
         if (shuffleCount === 400) {
             clearInterval(id);
+            shufflingInProgress = false;
             dealCards();
+            updateStatusElement(currentGameStatusElem, "block", primaryColour, "Please click the card that you think is the Ace of the Spades")
         } else {
             shuffleCount++;
         }
@@ -356,7 +359,13 @@ function createCard(cardItem) {
     addCardToGridCell(cardElem);
     // the initial posiiotn of the card is established when the card is created
     initialiseCardPosition(cardElem);
+    attachClickEventHanderToCard(cardElem);
 
+}
+
+function attachClickEventHanderToCard(card) {
+    // chooseCard method is call whenever a card is clicked
+    card.addEventListener("click", () => chooseCard(card))
 }
 
 function initialiseCardPosition(card) {
