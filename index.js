@@ -46,6 +46,31 @@ let score = 0;
 
 loadGame();
 
+function gameOver() {
+    updateStatusElement(scoreContainerElement, "none");
+    updateStatusElement(roundContainerElement, "none");
+
+    const gameOverMessage = `Game Over! Final Score - <span class = 'badge'>${score}</span>`
+    updateStatusElement(currentGameStatusElem, "block", primaryColour, gameOverMessage);
+    gameInProgress = false;
+    playGameButtonElement.disabled = false;
+}
+
+function endRound () {
+    // the round will be ended after user selected a card and
+    // all cards have revealed
+
+    // if the roundNum reaches the maxRounds, the game ends
+    // if not, the new round will start automaticlally in 3s
+    setTimeout(() => {
+        if (roundNum === maxRounds) {
+            gameOver();
+            return
+        } else {
+            startRound();
+        }
+    }, 3000)
+}
 function chooseCard(card) {
     // let user choose a card
     if (canChooseCard()) {
@@ -56,6 +81,7 @@ function chooseCard(card) {
         setTimeout(() => {
             flipCards(false);
             updateStatusElement(currentGameStatusElem, "block", primaryColour, "Card position revealed")
+            endRound();
         }, 3000)
         cardsRevealed = true
     }
@@ -85,7 +111,7 @@ function updateStatusElement(elem, display, colour, innerHTML) {
     elem.style.display = display;
     
     if (arguments.length > 2) {
-        elem.style.colour = colour;
+        elem.style.color = colour;
         elem.innerHTML = innerHTML;
     }
 
@@ -101,7 +127,7 @@ function outputChoiceFeedback(hit) {
 
 function evaluateCardChoice(card) {
     // evalute the card that use chooses is the ace of spades or not
-    if (card.id === aceSpadesId) {
+    if (card.id == 4) {
         updateScore();
         outputChoiceFeedback(true);
     } else {
@@ -145,7 +171,7 @@ function initialiseNewGame() {
 function startRound() {
     initialiseNewRound();
     collectCards();
-    flipCards(true);
+    // flipCards(true);
     shuffleCards();
 }
 
