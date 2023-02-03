@@ -46,121 +46,32 @@ let score = 0;
 
 loadGame();
 
-function gameOver() {
-    updateStatusElement(scoreContainerElement, "none");
-    updateStatusElement(roundContainerElement, "none");
-
-    const gameOverMessage = `Game Over! Final Score - <span class = 'badge'>${score}</span>`
-    updateStatusElement(currentGameStatusElem, "block", primaryColour, gameOverMessage);
-    gameInProgress = false;
-    playGameButtonElement.disabled = false;
-}
-
-function endRound () {
-    // the round will be ended after user selected a card and
-    // all cards have revealed
-
-    // if the roundNum reaches the maxRounds, the game ends
-    // if not, the new round will start automaticlally in 3s
-    setTimeout(() => {
-        if (roundNum === maxRounds) {
-            gameOver();
-            return
-        } else {
-            startRound();
-        }
-    }, 3000)
-}
-function chooseCard(card) {
-    // let user choose a card
-    if (canChooseCard()) {
-        evaluateCardChoice(card);
-        // flip the card that user chooses
-        flipCard(card, false);
-        // after 3s all cards fliped to revealed where the ace is
-        setTimeout(() => {
-            flipCards(false);
-            updateStatusElement(currentGameStatusElem, "block", primaryColour, "Card position revealed")
-            endRound();
-        }, 3000)
-        cardsRevealed = true
-    }
-}
-function calculateScoreToAdd(roundNum) {
-    if (roundNum === 1) {
-        return 100;
-    } else if (roundNum === 2) {
-        return 50;
-    } else if (roundNum === 3){
-        return 25;
-    } else {
-        return 10; 
-    }
-}
-function calculateScore() {
-    const scoreToAdd = calculateScoreToAdd(roundNum);
-    score = score + scoreToAdd
-}
-
-function updateScore() {
-    calculateScore();
-    updateStatusElement(scoreElement, "block", primaryColour, `<span class='badge'>{score}</span>`)
-}
-
-
-function updateStatusElement(elem, display, colour, innerHTML) {
-    elem.style.display = display;
-    
-    if (arguments.length > 2) {
-        elem.style.color = colour;
-        elem.innerHTML = innerHTML;
-    }
-
-}
-
-function outputChoiceFeedback(hit) {
-    if (hit) {
-        updateStatusElement(currentGameStatusElem, "block", winColour, "Hit!! - Well Done!");
-    } else {
-        updateStatusElement(currentGameStatusElem, "block", loseColour, "Missed!!")
-    }
-}
-
-function evaluateCardChoice(card) {
-    // evalute the card that use chooses is the ace of spades or not
-    if (card.id == 4) {
-        updateScore();
-        outputChoiceFeedback(true);
-    } else {
-        outputChoiceFeedback(false);
-    }
-}
-
-function canChooseCard() {
-    // only game is in progress, shuffling is not in progress and cards are not revealed 
-    // then the user can choose a card
-    return gameInProgress == true && !shufflingInProgress && !cardsRevealed;
-}
 
 function loadGame() {
     // when the game loads, the cards will be created on the grid
     createCards();
     // assigned All the cardElements created to casrds variable 
     cards = document.querySelectorAll('.card');
-    // add click event handler to the play game button, once play game button clicked, startGame function activates
-    playGameButtonElement.addEventListener('click', () => startGame() );
+    // the score and round value is hidden when the game is loaded
     updateStatusElement(scoreContainerElement, "none");
     updateStatusElement(roundContainerElement, "none");
+    
+    // click Play Game button to start the game
+    playGameButtonElement.addEventListener('click', () => startGame() );
+
 
 }
 
 function startGame() {
     // when user click Play Game button, the game will start
+    // initialised all the key values then the round automatically starts
     initialiseNewGame();
     startRound();
 }
 
+
 function initialiseNewGame() {
+    // initalise all the values and prepare for the game to start
     score = 0;
     roundNum = 0;
     shufflingInProgress = false;
@@ -174,18 +85,20 @@ function initialiseNewGame() {
 function startRound() {
     initialiseNewRound();
     collectCards();
-    // flipCards(true);
+    flipCards(true);
     shuffleCards();
 }
 
+
 function initialiseNewRound() {
+
     roundNum++;
     playGameButtonElement.disabled = true;
     gameInProgress = true;
     shufflingInProgress = true;
     cardsRevealed = false;
 
-    // when a round is tarted, we want to update the status of the game in black colour
+    // when a round is started, we want to update the status of the game in black colour
     updateStatusElement(currentGameStatusElem, "block", primaryColour, "Shuffling...");
     updateStatusElement(roundElement, "block", primaryColour, `Round <span class='badge'>${roundNum}</span>`)
 }
@@ -194,30 +107,6 @@ function collectCards() {
     // when the round starts, the grid will collapse into one cell and all cards will stack
     transFormGridArea(collapseGridAreaTemp);
     addCardsToGridAreaCell(cardCollectionCellClass);
-}
-
-function transFormGridArea(areas) {
-    // modify the gridTemplateAreas css which makes the grid only contains one cell
-    cardContainerElement.style.gridTemplateAreas = areas
-    
-}
-function addCardsToGridAreaCell(cellPositionClassName) {
-    // select the one cell of the grid and append all cards into that single cell
-    const cellPositionElem = document.querySelector(cellPositionClassName)
-    cards.forEach((card, index) =>{
-        addChildElement(cellPositionElem, card)
-    })
-}
-
-function flipCard(card, flipToBack) {
-    const innerCardElement = card.firstChild;
-    // if flipToBack is true and the first child element of the card doesnt have flip-it class
-    // then add to it
-    if (flipToBack && !innerCardElement.classList.contains('flip-it')) {
-        innerCardElement.classList.add('flip-it');
-    } else if (innerCardElement.classList.contains('flip-it')){
-        innerCardElement.classList.remove('flip-it')
-    }
 }
 
 function flipCards(flipToBack) {
@@ -250,6 +139,140 @@ function shuffleCards() {
     }
 
 }
+
+
+// user starts to choose for a card
+function chooseCard(card) {
+    // let user choose a card
+    if (canChooseCard()) {
+        evaluateCardChoice(card);
+        // flip the card that user chooses
+        flipCard(card, false);
+        
+        setTimeout(() => {
+            // after 3s all cards will revealed
+            flipCards(false);
+            updateStatusElement(currentGameStatusElem, "block", primaryColour, "Card position revealed");
+            endRound();
+        }, 3000)
+        cardsRevealed = true
+    }
+}
+
+function canChooseCard() {
+    // only game is in progress, shuffling is not in progress and cards are not revealed 
+    // then the user can choose a card
+    return gameInProgress == true && !shufflingInProgress && !cardsRevealed;
+}
+
+function evaluateCardChoice(card) {
+    // evalute the card that use chooses is the ace of spades or not
+    if (card.id == 4) {
+        // Score only updates when the use chooses the ace of spades
+        updateScore();
+        outputChoiceFeedback(true);
+    } else {
+        outputChoiceFeedback(false);
+    }
+}
+
+function endRound () {
+    // the round will be ended after user selected a card and
+    // all cards have revealed
+
+    // if the roundNum reaches the maxRounds, the game ends
+    // if not, the new round will start automaticlally in 2s
+    setTimeout(() => {
+        if (roundNum === maxRounds) {
+            gameOver();
+            return
+        } else {
+            startRound();
+        }
+    }, 2000)
+}
+
+
+function gameOver() {
+    updateStatusElement(scoreContainerElement, "none");
+    updateStatusElement(roundContainerElement, "none");
+
+    const gameOverMessage = `Game Over! Final Score - <span class = 'badge'>${score}</span>`
+    updateStatusElement(currentGameStatusElem, "block", primaryColour, gameOverMessage);
+    gameInProgress = false;
+    playGameButtonElement.disabled = false;
+}
+
+
+function updateScore() {
+    calculateScore();
+    updateStatusElement(scoreElement, "block", primaryColour, `<span class='badge'>${score}</span>`)
+}
+
+
+function calculateScoreToAdd(roundNum) {
+    if (roundNum === 1) {
+        return 100;
+    } else if (roundNum === 2) {
+        return 50;
+    } else if (roundNum === 3){
+        return 25;
+    } else {
+        return 10; 
+    }
+}
+function calculateScore() {
+    const scoreToAdd = calculateScoreToAdd(roundNum);
+    score = score + scoreToAdd
+}
+
+
+
+function updateStatusElement(elem, display, colour, innerHTML) {
+    elem.style.display = display;
+    
+    if (arguments.length > 2) {
+        elem.style.color = colour;
+        elem.innerHTML = innerHTML;
+    }
+
+}
+
+function outputChoiceFeedback(hit) {
+    if (hit) {
+        updateStatusElement(currentGameStatusElem, "block", winColour, "Hit!! - Well Done!");
+    } else {
+        updateStatusElement(currentGameStatusElem, "block", loseColour, "Missed!!")
+    }
+}
+
+
+
+
+function transFormGridArea(areas) {
+    // modify the gridTemplateAreas css which makes the grid only contains one cell
+    cardContainerElement.style.gridTemplateAreas = areas
+    
+}
+function addCardsToGridAreaCell(cellPositionClassName) {
+    // select the one cell of the grid and append all cards into that single cell
+    const cellPositionElem = document.querySelector(cellPositionClassName)
+    cards.forEach((card, index) =>{
+        addChildElement(cellPositionElem, card)
+    })
+}
+
+function flipCard(card, flipToBack) {
+    const innerCardElement = card.firstChild;
+    // if flipToBack is true and the first child element of the card doesnt have flip-it class
+    // then add to it
+    if (flipToBack && !innerCardElement.classList.contains('flip-it')) {
+        innerCardElement.classList.add('flip-it');
+    } else if (innerCardElement.classList.contains('flip-it')){
+        innerCardElement.classList.remove('flip-it')
+    }
+}
+
 
 
 function randomiseCardPositions() {
