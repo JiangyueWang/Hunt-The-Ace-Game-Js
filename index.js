@@ -104,6 +104,7 @@ function calculateScore() {
 
 function updateScore() {
     calculateScore();
+    updateStatusElement(scoreElement, "block", primaryColour, `<span class='badge'>{score}</span>`)
 }
 
 
@@ -147,7 +148,9 @@ function loadGame() {
     // assigned All the cardElements created to casrds variable 
     cards = document.querySelectorAll('.card');
     // add click event handler to the play game button, once play game button clicked, startGame function activates
-    playGameButtonElement.addEventListener('click', () => startGame() )
+    playGameButtonElement.addEventListener('click', () => startGame() );
+    updateStatusElement(scoreContainerElement, "none");
+    updateStatusElement(roundContainerElement, "none");
 
 }
 
