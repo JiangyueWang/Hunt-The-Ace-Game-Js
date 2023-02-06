@@ -4,6 +4,9 @@
     --card-height: 220px;
     --num-cards:4;
     --card-horizontal-space: 100px;
+    --badge-bg-color:darkgrey;
+    --primary-color: black;
+    --secondary-color: #ffffff;
 }
 body {
     height: 100vh;
@@ -15,6 +18,52 @@ main {
     justify-content: center;
     /* border: 1px solid black; */
 }
+header {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+.header-title-container {
+    display: flex;
+    justify-content: center;
+}
+.header-round-info-container {
+    display: flex;
+    justify-content: space-evenly;
+}
+.header-status-info-container,
+.header-button-container,
+.header-score-container,
+.header-round-container,
+.header-img-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.header-sore-container,
+.header-round-container,
+.header-img-container {
+    width: 150px;   
+}
+.header-img{
+    height: 75px;
+    border-radius: 5px;
+    border: 1px solid black;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transform: rotate(-3deg);
+}
+.badge{
+    background-color: var(--badge-bg-color);
+    color: var(--secondary-color);
+    padding: 2px 10px 3px;
+    border-radius: 15px;
+}
+.game-play-button-container{
+    width:150px;
+    height:70px;
+}
+
+
 .card-container {
     position: relative;
     height:100%;
