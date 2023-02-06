@@ -206,7 +206,7 @@ function gameOver() {
 
 function updateScore() {
     calculateScore();
-    updateStatusElement(scoreElement, "block", primaryColour, `<span class='badge'>${score}</span>`)
+    updateStatusElement(scoreElement, "block", primaryColour, `Score<span class='badge'>${score}</span>`)
 }
 
 
